@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="text/javascript" src="/ghibli_javascript.js"></script>
+</head>
+<body class="details-body" id="details-body" th:object="${movie}" onload="checkLightModeDetails()">
+    <div class="lightmode">
+        <img src="/images/lightmode.png"  id="lightmode" height="48" width="48" alt="lightmode" onclick="lightModeDetails()"/>
+    </div>
+        <div class="flip-card-details">
+            <div class="flip-card-inner-details">
+                <div class="titles" th:id="${movie.id}">
+                    <div style="width: 100%; height: fit-content; backdrop-filter: blur(20px)">
+                        <div class="title" th:text="${movie.title}"></div>
+                        <div class="subtitle" th:text="${movie.original_title}"></div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="details-side-nav">
+                        <ul class="nav-list">
+                            <li>Description</li>
+                            <li>People</li>
+                            <li>Locations</li>
+                            <li>Vehicles</li>
+                        </ul>
+                    </div>
+                    <div class="details-content">
+                        <div class="details-card original-title-romanised">
+                            <h2>Original Title (Romanised)</h2>
+                            <div th:text="${movie.original_title_romanised}"></div>
+                        </div>
+                        <div class="details-card description">
+                            <h2>Description</h2>
+                            <div th:text="${movie.description}"></div>
+                        </div>
+                        <div class="details-card director">
+                            <h2>Director</h2>
+                            <div th:text="${movie.director}"></div>
+                        </div>
+                        <div class="details-card producer">
+                            <h2>Producer</h2>
+                            <div th:text="${movie.producer}"></div>
+                        </div>
+                        <div class="details-card release-date">
+                            <h2>Release Date</h2>
+                            <div th:text="${movie.release_date}"></div>
+                        </div>
+                        <div class="details-card running-time">
+                            <h2>Running Time</h2>
+                            <div th:text="${movie.running_time}"></div>
+                        </div>
+                        <div class="details-card rt-score">
+                            <h2>Rotten Tomatoes Score</h2>
+                            <div th:text="${movie.rt_score}"></div>
+                        </div>
+                        <div class="details-card people" id="people">
+                            <h2>People</h2>
+                            <div th:each="person : ${movie.people}">
+                                <div th:text="${person.name}">Name</div>
+                            </div>
+                        </div>
+                        <div class="details-card" th:each="location : ${movie.locations}">
+                            <h2>Locations</h2>
+                            <a th:href="${location}">Locations</a>
+                        </div>
+                        <div class="details-card" style="display: none">
+                            <h2>Vehicles</h2>
+                            <a th:text="${movie.vehicles}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script th:inline="javascript">
+        let movie = [[${movie}]];
+        getBackground(movie.title, movie.id);
+        let people = [[${movie.people}]];
+        if(people.length === 0){
+            document.getElementById("people").setAttribute("style", "display: none;")
+        }
+    </script>
+
+</body>
+
+</html>

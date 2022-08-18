@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Studio Ghibli Movies</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="text/javascript" src="/ghibli_javascript.js"></script>
+</head>
+<body id="indexBody" onload="checkLightMode()">
+    <div class="titlePicture">
+        <img src="/images/StudioGhibliWhite.png" id="logo" height="auto" width="auto" alt="StudioGhibliWhite"/>
+    </div>
+    <div class="lightmode">
+        <img src="/images/lightmode.png"  id="lightmode" height="48" width="48" alt="lightmode" onclick="lightMode()"/>
+    </div>
+    <div class="body-content">
+        <div class="flip-card" th:each="movie : ${movies}">
+            <div class="flip-card-inner">
+                <div class="flip-card-front" th:object="${movie}" th:id="${movie.id}">
+                    <table style="width: 100%;">
+                        <tbody>
+                        <tr>
+                            <td th:text="${movie.id}" id="movieId" style="display: none"></td>
+                            <td th:text="${movie.title}" style="column-span: all; font-weight: 700; font-size: 25px;"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${movie.original_title}" style="column-span: all"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flip-card-back">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td th:text="${movie.title}" style="column-span: all;"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${movie.description}" style="column-span: all; padding: 4%"></td>
+                        </tr>
+                        <tr>
+                            <td style="column-span: all;">
+                                <a th:object="${movie}" th:href="@{'/details/'+${movie.id}}" style="text-decoration: none;">Learn More</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        let movies = [[${movies}]];
+        for(let i = 0; i < movies.length; i++){
+            getBackground(movies[i].title, movies[i].id);
+        }
+    </script>
+</body>
+</html>
